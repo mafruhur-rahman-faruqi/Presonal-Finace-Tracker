@@ -1,4 +1,4 @@
-#Thu Nov 18 19:03:54 BDT 2021
+#Sat Nov 20 11:19:30 BDT 2021
 base.0=/Users/mafruh_faruqi/Documents/GitHub/Presonal-Finace-Tracker/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

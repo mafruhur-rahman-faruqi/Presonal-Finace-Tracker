@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import './models/transaction.dart';
-import './widgets/show_transactions.dart';
+import 'widgets/show_transaction_list.dart';
 import './widgets/add_new_transaction.dart';
+import 'widgets/chart_generate.dart';
 
 void main() => runApp(MyApp());
 
@@ -67,7 +68,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Container(
         padding: EdgeInsets.all(10),
-        child: ShowTransactionList(transactions),
+        child: Column(
+          children: [
+            ChartGenerate(transactions), // addig chart
+            ShowTransactionList(transactions), //adding the list
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.amber,
