@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:personal_expense_tracker/models/transaction.dart';
 
 class AddNewTransaction extends StatefulWidget {
@@ -22,8 +23,29 @@ class _AddNewTransactionState extends State<AddNewTransaction> {
       return;
     }
 
-    widget.totalTransactionList(enteredTitle, double.parse(enteredAmount));
+    widget.totalTransactionList(
+        enteredTitle, double.parse(enteredAmount), pickedDate);
     Navigator.of(context).pop();
+  }
+
+  DateTime pickedDate = DateTime.now();
+
+  void _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020, 1, 1),
+      lastDate: DateTime.now(),
+    ).then(
+      (value) {
+        if (value == null) {
+          return;
+        }
+        setState(() {
+          pickedDate = value;
+        });
+      },
+    );
   }
 
   @override
@@ -43,7 +65,24 @@ class _AddNewTransactionState extends State<AddNewTransaction> {
           decoration: InputDecoration(
               border: OutlineInputBorder(), labelText: 'Enter amount'),
           controller: amountController,
+          keyboardType: TextInputType.number,
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+                'You picked ${DateFormat.yMMMd().format(pickedDate).toString()}'),
+            FlatButton(
+              onPressed: _showDatePicker, // show date pickker
+              child: Text(
+                "Pick a date",
+                style: TextStyle(color: Colors.white),
+              ),
+              color: Theme.of(context).primaryColorDark,
+            )
+          ],
+        ),
+        SizedBox(height: 10),
         ElevatedButton(
           onPressed: () => addTransaction(),
           style: ElevatedButton.styleFrom(

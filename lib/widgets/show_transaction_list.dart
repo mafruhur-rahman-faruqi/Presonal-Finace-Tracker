@@ -4,12 +4,13 @@ import 'package:intl/intl.dart';
 
 class ShowTransactionList extends StatelessWidget {
   final List<Transactions> transactionList;
-  ShowTransactionList(this.transactionList);
+  final Function removeTransaction;
+  ShowTransactionList(this.transactionList, this.removeTransaction);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 450,
+        height: MediaQuery.of(context).devicePixelRatio * 170,
         child: transactionList.length == 0
             ? Container(
                 margin: EdgeInsets.all(30),
@@ -26,56 +27,31 @@ class ShowTransactionList extends StatelessWidget {
             : ListView.builder(
                 itemBuilder: (ctx, index) {
                   return Card(
-                    child: Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Row(
-                        children: <Widget>[
-                          Flexible(
-                              flex: 0,
-                              fit: FlexFit.tight,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColorLight),
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 25),
-                                child: Text(
-                                  transactionList[index].amount.toString(),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )),
-                          Container(
-                            height: 50,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Flexible(
-                                    flex: 20,
-                                    child: Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 8),
-                                      child: Text(
-                                        transactionList[index].title,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    )),
-                                Flexible(
-                                    flex: 20,
-                                    child: Container(
-                                      margin:
-                                          EdgeInsets.symmetric(horizontal: 8),
-                                      child: Text(DateFormat.yMMMd()
-                                          .format(transactionList[index].date)),
-                                    ))
-                              ],
-                            ),
-                          )
-                        ],
+                    color: Colors.white,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        maxRadius: 20,
+                        backgroundColor: Theme.of(context).primaryColorLight,
+                        child: Text(
+                          transactionList[index].amount.toStringAsFixed(0),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
                       ),
+                      title: Text(
+                        transactionList[index].title,
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                      subtitle: Text(DateFormat.yMMMd()
+                          .format(transactionList[index].date)
+                          .toString()),
+                      trailing: IconButton(
+                          icon: Icon(Icons.delete),
+                          color: Colors.red.shade300,
+                          onPressed: () => removeTransaction(
+                              transactionList[index]
+                                  .id) // define delete functionality
+                          ),
                     ),
                   );
                 },

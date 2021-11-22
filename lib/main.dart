@@ -31,13 +31,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transactions> transactions = [
-    Transactions("G1", "Watch", 300, DateTime.now()),
-    Transactions("G2", "Mouse", 1200, DateTime.now()),
+    Transactions(id: "G1", title: "Watch", amount: 300, date: DateTime.now()),
   ];
 
-  void addTransaction(newTitle, newAmount) {
-    var justAdded = Transactions(DateTime.now().toString(), newTitle, newAmount,
-        DateTime.now()..toString());
+  void addTransaction(newTitle, newAmount, txDate) {
+    var justAdded = Transactions(
+        id: DateTime.now().toString(),
+        title: newTitle,
+        amount: newAmount,
+        date: txDate);
 
     setState(() {
       transactions.add(justAdded);
@@ -55,12 +57,20 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  void _removeTransaction(String deleteId) {
+    setState(() {
+      transactions.removeWhere((tx) {
+        return tx.id == deleteId;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.secondary,
-        title: Text('110 Recover'),
+        title: Text('Upto 136 recover'),
         actions: <Widget>[
           IconButton(
               onPressed: () => startAddingTransaction(), icon: Icon(Icons.add))
@@ -71,7 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             ChartGenerate(transactions), // addig chart
-            ShowTransactionList(transactions), //adding the list
+            ShowTransactionList(
+                transactions, _removeTransaction), //adding the list
           ],
         ),
       ),
