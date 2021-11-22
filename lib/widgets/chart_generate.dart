@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:personal_expense_tracker/models/transaction.dart';
-import 'chart_bar_ew.dart';
+import 'chart_bar.dart';
 
 class ChartGenerate extends StatelessWidget {
   final List<Transactions> recentTransactions;
@@ -43,27 +43,19 @@ class ChartGenerate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: Colors.amber[100],
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          children: groupedTransactionValues.map((data) {
-            return ChartBar(
-                label: data['Day'],
-                spendingAmount: data['amount'],
-                spendingPctOfTotal: totalSpending == 0.0
-                    ? 0.0
-                    : (data['amount'] as double) / totalSpending);
-          }).toList(),
-        ));
+      color: Colors.amber[100],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
+        children: groupedTransactionValues.map((data) {
+          return ChartBar(
+              label: data['Day'],
+              spendingAmount: data['amount'],
+              spendingPctOfTotal: totalSpending == 0.0
+                  ? 0.0
+                  : (data['amount'] as double) / totalSpending);
+        }).toList(),
+      ),
+    );
   }
 }
-
-// <Widget>[
-//                   Text(data['Day']),
-//                   Text(data['amount'].toString()),
-//                   Text(totalSpending == 0.0
-//                       ? 0.0.toString()
-//                       : ((data['amount'] as double) / totalSpending).toString())
-//                   // we basically output it in a chartbar
-//                 ],

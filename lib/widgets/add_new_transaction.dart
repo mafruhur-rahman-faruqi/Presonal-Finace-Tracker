@@ -50,47 +50,54 @@ class _AddNewTransactionState extends State<AddNewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      children: <Widget>[
-        TextField(
-          decoration: InputDecoration(
-              border: OutlineInputBorder(), labelText: 'Enter title'),
-          controller: titleController,
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        TextField(
-          decoration: InputDecoration(
-              border: OutlineInputBorder(), labelText: 'Enter amount'),
-          controller: amountController,
-          keyboardType: TextInputType.number,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-                'You picked ${DateFormat.yMMMd().format(pickedDate).toString()}'),
-            FlatButton(
-              onPressed: _showDatePicker, // show date pickker
-              child: Text(
-                "Pick a date",
-                style: TextStyle(color: Colors.white),
+    return SingleChildScrollView(
+      child: Container(
+          padding: EdgeInsets.only(
+              top: 10,
+              left: 10,
+              right: 10,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10),
+          child: Column(
+            children: <Widget>[
+              TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Enter title'),
+                controller: titleController,
               ),
-              color: Theme.of(context).primaryColorDark,
-            )
-          ],
-        ),
-        SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: () => addTransaction(),
-          style: ElevatedButton.styleFrom(
-            shadowColor: Colors.black,
-          ),
-          child: Text("Add transaction"),
-        )
-      ],
-    ));
+              SizedBox(
+                height: 10,
+              ),
+              TextField(
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Enter amount'),
+                controller: amountController,
+                keyboardType: TextInputType.number,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                      'You picked ${DateFormat.yMMMd().format(pickedDate).toString()}'),
+                  FlatButton(
+                    onPressed: _showDatePicker, // show date pickker
+                    child: Text(
+                      "Pick a date",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Theme.of(context).primaryColorDark,
+                  )
+                ],
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () => addTransaction(),
+                style: ElevatedButton.styleFrom(
+                  shadowColor: Colors.black,
+                ),
+                child: Text("Add transaction"),
+              )
+            ],
+          )),
+    );
   }
 }

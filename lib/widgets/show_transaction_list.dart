@@ -10,20 +10,25 @@ class ShowTransactionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).devicePixelRatio * 170,
-        child: transactionList.length == 0
-            ? Container(
-                margin: EdgeInsets.all(30),
-                child: Column(
-                  children: <Widget>[
-                    Image(image: AssetImage('assets/images/empty.png')),
-                    Text(
-                      "You didn't add any transaction yet!",
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                ),
-              )
+        // height: MediaQuery.of(context).size.height * 0.8,
+        child: transactionList.isEmpty
+            ? LayoutBuilder(builder: (context, constraints) {
+                return Container(
+                  margin: EdgeInsets.all(10),
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                          height: constraints.maxHeight * 0.8,
+                          child: Image(
+                              image: AssetImage('assets/images/empty.png'))),
+                      Text(
+                        "You didn't add any transaction yet!",
+                        style: TextStyle(fontSize: 20),
+                      )
+                    ],
+                  ),
+                );
+              })
             : ListView.builder(
                 itemBuilder: (ctx, index) {
                   return Card(
@@ -45,13 +50,27 @@ class ShowTransactionList extends StatelessWidget {
                       subtitle: Text(DateFormat.yMMMd()
                           .format(transactionList[index].date)
                           .toString()),
-                      trailing: IconButton(
-                          icon: Icon(Icons.delete),
-                          color: Colors.red.shade300,
-                          onPressed: () => removeTransaction(
-                              transactionList[index]
-                                  .id) // define delete functionality
-                          ),
+                      trailing: MediaQuery.of(context).size.width > 420
+                          ? Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text("Delete Parmaently"),
+                                IconButton(
+                                    icon: Icon(Icons.delete),
+                                    color: Colors.red.shade300,
+                                    onPressed: () => removeTransaction(
+                                        transactionList[index]
+                                            .id) // define delete functionality
+                                    ),
+                              ],
+                            )
+                          : IconButton(
+                              icon: Icon(Icons.delete),
+                              color: Colors.red.shade300,
+                              onPressed: () => removeTransaction(
+                                  transactionList[index]
+                                      .id) // define delete functionality
+                              ),
                     ),
                   );
                 },
